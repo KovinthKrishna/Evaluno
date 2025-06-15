@@ -1,3 +1,10 @@
+# Add this at the VERY TOP of user_service.py (before other imports)
+import bcrypt
+bcrypt.__about__ = type('obj', (), {'__version__': '4.3.0'})  # Manually add missing attribute
+
+# Now import passlib
+from passlib.context import CryptContext
+
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -5,11 +12,18 @@ from passlib.context import CryptContext
 from fastapi import HTTPException, status
 from database.connection import settings, get_db
 from schemas.user import UserCreate, UserInDB, UserResponse, TokenData
-from models.user import create_user_model
+#from models.user import create_user_model
 import secrets
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-users_collection = create_user_model()
+# Replace the existing pwd_context line with:
+pwd_context = CryptContext(
+    schemes=["bcrypt"], 
+    bcrypt__ident="2b",  # Force modern bcrypt variant
+    bcrypt__rounds=12,   # Standard number of rounds
+    deprecated="auto"
+)
+db = get_db()
+users_collection = db["users"]
 
 def verify_password(plain_password: str, hashed_password: str):
     return pwd_context.verify(plain_password, hashed_password)

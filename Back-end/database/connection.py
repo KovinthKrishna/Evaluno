@@ -1,6 +1,7 @@
-from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
+import certifi
 
 load_dotenv()
 
@@ -16,8 +17,14 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-client = MongoClient(settings.DATABASE_URL)
-db = client[settings.DATABASE_NAME]
+# Create async MongoDB client
+client = AsyncIOMotorClient(
+    settings.DATABASE_URL,
+    tls=True,
+    tlsCAFile=certifi.where(),
+    connectTimeoutMS=30000,
+    serverSelectionTimeoutMS=30000
+)
 
 def get_db():
-    return db
+    return client[settings.DATABASE_NAME]
