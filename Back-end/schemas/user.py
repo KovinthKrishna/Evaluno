@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, Literal
-from bson import ObjectId
+
 
 
 class UserBase(BaseModel):
