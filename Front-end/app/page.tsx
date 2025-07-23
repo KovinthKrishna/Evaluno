@@ -69,7 +69,6 @@ export default function Home() {
 
 import Link from "next/link";
 import Image from "next/image";
-import HeroImg from "../public/sidehome.png"; // <-- Replace with your actual image path
 
 export default function Home() {
   return (
@@ -81,6 +80,7 @@ export default function Home() {
           <li><Link href="#">Home</Link></li>
           <li><Link href="#">About</Link></li>
           <li><Link href="#">Products</Link></li>
+          <li><Link href="/compare">CV Comparison</Link></li>
         </ul>
         <div className="space-x-4">
           <Link href="/login" className="px-4 py-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 transition">Log in</Link>
@@ -113,7 +113,7 @@ export default function Home() {
         {/* Right Side Image */}
         <div className="w-full md:w-1/2">
           <Image
-            src={HeroImg}
+            src="/sidehome.png"
             alt="AI Recruiting Visual"
             width={600}
             height={600}
