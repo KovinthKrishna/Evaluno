@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import auth
 from routes import interviewRoute
+from routes import interview_question_type
+
 
 app = FastAPI()
 
@@ -15,3 +17,4 @@ app.add_middleware(
 
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(interviewRoute.router)
+app.include_router(interview_question_type.router)
